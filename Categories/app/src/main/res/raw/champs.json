@@ -1,0 +1,33 @@
+{
+  "Taille d'écran": {
+    "min": 3.5,
+    "max": 85,
+    "unite": "pouces",
+    "type": "float",
+    "precision": 2
+  },
+  "Largeur": {
+    "min": 0,
+    "unite": "cm",
+    "type": "float",
+    "precision": 2
+  },
+  "Longueur": {
+    "min": 0,
+    "unite": "cm",
+    "type": "float",
+    "precision": 2
+  },
+  "Nom produit": {
+    "min": 2,
+    "max": 64,
+    "type": "alphanumeric"
+  },
+  "Reférence produit": {
+    "lenght": 30,
+    "type": "alphanumeric"
+  },
+  "Date péremption": {
+    "type": "date"
+  }
+}

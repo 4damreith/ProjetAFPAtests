@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!--GENERAL-->
+    <string name="app_name">App</string>
+    <string name="action_settings">Menu</string>
+
+    <!--FORMULAIRES-->
+
+    <!--Titres-->
+    <string name="titre_form_creer_categorie">Créer une catégorie</string>
+    <string name="titre_form_editer_categorie">Editer une catégorie</string>
+    <string name="titre_ajouter_champ">Ajouter un champ</string>
+
+    <!--Boutons-->
+    <string name="texte_bouton_form_ajouter_champ">Ajouter un champ</string>
+    <string name="texte_bouton_form_valider">Envoyer</string>
+    <string name="texte_bouton_dialog_ajouter_champ_valider">Valider</string>
+    <string name="texte_bouton_dialog_ajouter_champ_annuler">Annuler</string>
+
+    <!--Labels champs de formulaires-->
+    <string name="label_type_categorie">Type</string>
+
+    <!--Placeholders/Hints-->
+    <string name="placeholder_type_categorie">Saisir le type</string>
+</resources>
