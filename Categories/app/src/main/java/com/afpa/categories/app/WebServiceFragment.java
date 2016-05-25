@@ -8,11 +8,8 @@ import com.loopj.android.http.AsyncHttpClient;
  */
 public abstract class WebServiceFragment extends Fragment {
 
-    protected static final String DOMAIN = "http://pc872:8085/Glutton-1.0-SNAPSHOT/acces/";
+    protected static final String DATA_TYPE = "application/json";
+    protected static final String DOMAIN = "http://pc872:8085/Glutton-1.0-SNAPSHOT/acces";
     protected static AsyncHttpClient asyncHttpClient = new AsyncHttpClient();
-    private final String nomModele;
 
-    public WebServiceFragment(String nomModele) {
-        this.nomModele = nomModele;
-    }
 }

@@ -1,33 +1,41 @@
 {
-  "Taille d'écran": {
+  "taille_ecran": {
+    "libelle": "Taille ecran",
     "min": 3.5,
     "max": 85,
     "unite": "pouces",
     "type": "float",
     "precision": 2
   },
-  "Largeur": {
+  "largeur": {
+    "libelle": "Largeur",
     "min": 0,
     "unite": "cm",
     "type": "float",
     "precision": 2
   },
-  "Longueur": {
+  "longueur": {
+    "libelle": "Longueur",
     "min": 0,
     "unite": "cm",
     "type": "float",
     "precision": 2
   },
-  "Nom produit": {
-    "min": 2,
-    "max": 64,
-    "type": "alphanumeric"
-  },
-  "Reférence produit": {
+  "ref_produit": {
+    "libelle": "Reference produit",
     "lenght": 30,
-    "type": "alphanumeric"
+    "type": "string"
   },
-  "Date péremption": {
+  "date_peremption": {
+    "libelle": "Date peremption",
     "type": "date"
+  },
+  "autonomie": {
+    "libelle": "Autonomie",
+    "type": "time"
+  },
+  "liste": {
+    "libelle": "Liste",
+    "type": "list"
   }
 }

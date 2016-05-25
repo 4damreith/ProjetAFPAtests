@@ -9,11 +9,12 @@
     <!--Titres-->
     <string name="titre_form_creer_categorie">Créer une catégorie</string>
     <string name="titre_form_editer_categorie">Editer une catégorie</string>
-    <string name="titre_ajouter_champ">Ajouter un champ</string>
+    <string name="titre_ajouter_champ">Ajouter des champs</string>
 
     <!--Boutons-->
     <string name="texte_bouton_form_ajouter_champ">Ajouter un champ</string>
     <string name="texte_bouton_form_valider">Envoyer</string>
+    <string name="texte_bouton_form_annuler">Annuler</string>
     <string name="texte_bouton_dialog_ajouter_champ_valider">Valider</string>
     <string name="texte_bouton_dialog_ajouter_champ_annuler">Annuler</string>
 
@@ -22,4 +23,8 @@
 
     <!--Placeholders/Hints-->
     <string name="placeholder_type_categorie">Saisir le type</string>
+
+    <!--Dialogues modaux-->
+    <string name="dialog_ajout_categorie_succes">Insertion réussie</string>
+    <string name="dialog_ajout_categorie_echec">Insertion échouée</string>
 </resources>

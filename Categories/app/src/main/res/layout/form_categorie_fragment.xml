@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/grey_200"
+        >
+
+    <com.gc.materialdesign.views.ButtonFlat
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/titre_form_creer_categorie"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:singleLine="true"
+            android:gravity="center"
+            android:height="50dp"
+            android:background="@color/light_blue_800"
+            android:textColor="@color/white"
+            android:id="@+id/textView"
+            />
+    <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/editTextCategorie"
+            android:layout_below="@+id/textView"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentRight="true"
+            android:layout_marginTop="10dp"
+            android:hint="Saisir le type"
+            android:textSize="@dimen/form_label"
+            android:textColorHint="@color/placeholder_text_color"
+            android:layout_margin="@dimen/form_base_margin"
+            android:singleLine="true"
+            />
+    <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:id="@+id/linearLayout"
+            android:layout_marginRight="@dimen/form_base_margin" android:layout_below="@+id/textView2"
+            android:layout_alignStart="@+id/editTextCategorie">
+        <Spinner
+                android:layout_width="0dp"
+                android:layout_weight="3"
+                android:layout_height="50dp"
+                android:id="@+id/spinnerAjouterChamp"
+                />
+        <com.gc.materialdesign.views.ButtonFloat
+                android:id="@+id/boutonAjouterChamp"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="@color/light_blue_800"
+                materialdesign:animate="false"
+                materialdesign:iconDrawable="@drawable/ic_library_add_white_48dp"
+                android:layout_marginLeft="@dimen/form_base_margin"
+                />
+    </LinearLayout>
+    <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/boutonAnnulerCategorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/orange_800"
+            materialdesign:iconDrawable="@drawable/ic_clear_white_48dp"
+            materialdesign:animate="false"
+            android:layout_marginStart="86dp"
+            android:layout_alignParentBottom="true" android:layout_alignStart="@+id/linearLayout"
+            android:layout_marginBottom="10dp"/>
+    <com.gc.materialdesign.views.ButtonFloat
+            android:id="@+id/boutonValiderCategorie"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/light_blue_800"
+            materialdesign:iconDrawable="@drawable/ic_done_white_48dp"
+            materialdesign:animate="false"
+            android:layout_marginStart="78dp"
+            android:layout_alignTop="@+id/boutonAnnulerCategorie" android:layout_toEndOf="@+id/boutonAnnulerCategorie"/>
+
+    <com.gc.materialdesign.views.ButtonFlat
+            android:layout_width="wrap_content" android:layout_height="40dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="@string/titre_ajouter_champ"
+            android:singleLine="true"
+            android:gravity="center" android:height="50dp" android:background="@color/light_blue_800"
+            android:textColor="@color/white" android:id="@+id/textView2"
+            android:layout_below="@+id/editTextCategorie" android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            />
+    <ListView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/listViewChamps" android:layout_below="@+id/linearLayout"
+            android:layout_alignParentStart="true"
+            android:layout_above="@+id/boutonAnnulerCategorie"
+            android:layout_margin="10dp"
+            android:background="@color/white"/>
+
+</RelativeLayout>

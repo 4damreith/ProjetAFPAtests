@@ -44,6 +44,22 @@ public final class JsonUtils {
         return list;
     }
 
+    public static List<JSONObject> getJsonObjects(JSONObject json, List<JSONObject> list) {
+        Iterator<String> keys = json.keys();
+        while (keys.hasNext()) {
+            String key = keys.next();
+            JSONObject current = new JSONObject();
+            try {
+                current = json.getJSONObject(key);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            list.add(current);
+        }
+        return list;
+    }
+
+
     public static JSONObject loadJSONFromResources(Context context, int resourceId) throws IOException {
         BufferedReader bufferedReader = null;
         JSONObject json = null;

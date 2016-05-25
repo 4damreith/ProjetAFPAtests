@@ -44,7 +44,7 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
 
 
     @Override
-    public void fireValidCategorie() {
+    public void OnValidCategorie() {
         //TODO
     }
 }
