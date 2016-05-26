@@ -4,37 +4,48 @@
         android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:padding="@dimen/form_base_margin"
         >
 
-    <com.gc.materialdesign.views.ButtonFlat
-            android:id="@+id/buttonflat"
+    <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_weight="1"
+            android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/titre_liste_categories"
-            android:gravity="center"
-            />
-
-    <AutoCompleteTextView
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:id="@+id/filterAutoCompleteTextView"
-            android:hint="@string/placeholder_filter_categories"
-            android:textColorHint="@color/placeholder_text_color"
-            android:completionThreshold="1"
             android:singleLine="true"
+            android:gravity="center"
+            android:height="50dp"
+            android:background="@color/light_blue_800"
+            android:textColor="@color/white"
             />
-
-    <ListView
+    <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="10"
-            android:id="@+id/listViewCategories"
+            android:layout_weight="11"
+            android:layout_margin="@dimen/form_base_margin"
             >
+        <AutoCompleteTextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:id="@+id/filterAutoCompleteTextView"
+                android:hint="@string/placeholder_filter_categories"
+                android:textColorHint="@color/placeholder_text_color"
+                android:completionThreshold="1"
+                android:singleLine="true"
+                />
 
-    </ListView>
+        <ListView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="11"
+                android:id="@+id/listViewCategories"
+                >
+
+        </ListView>
 
 
+    </LinearLayout>
 </LinearLayout>

@@ -7,10 +7,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
-import android.widget.ListView;
+import android.widget.*;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import org.json.JSONArray;
@@ -27,8 +24,8 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
 
     private static final String CATEGORIE_NOM_KEY = "categorie";
     private final static String NOM_MODELE = "/categorie";
+    private List<String> nomsCategories;
     private AutoCompleteTextView autoCompleteTextView;
-    private ArrayAdapter<String> listViewCategoriesAdapter;
     private ListView listViewCategories;
     private ListeCategorieFragmentListener listener;
 
@@ -36,6 +33,7 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.list_categorie_fragment, container, false);
+        this.nomsCategories = new ArrayList<String>();
         return view;
     }
 
@@ -57,13 +55,13 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
                     //retrieving data
                     response = new String(responseBody, ENCODING);
                     JSONArray jsonArray = new JSONArray(response);
-                    List<String> nomsCategories = JsonUtils.getValuesFromArray(jsonArray, CATEGORIE_NOM_KEY, new ArrayList<String>());
+                    ListeCategorieFragment.this.nomsCategories = JsonUtils.getValuesFromArray(jsonArray, CATEGORIE_NOM_KEY, new ArrayList<String>());
 
                     //init autocomplete filter text field
                     ArrayAdapter<String> autoCompleteTextViewAdapter = new ArrayAdapter<String>(
                             getActivity(),
                             android.R.layout.simple_dropdown_item_1line,
-                            nomsCategories);
+                            ListeCategorieFragment.this.nomsCategories);
                     ListeCategorieFragment.this.autoCompleteTextView = (AutoCompleteTextView)
                             ListeCategorieFragment.this.getView().findViewById(R.id.filterAutoCompleteTextView);
                     ListeCategorieFragment.this.autoCompleteTextView.setAdapter(autoCompleteTextViewAdapter);
@@ -71,11 +69,6 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
                     //init listview
                     ListeCategorieFragment.this.listViewCategories = (ListView)
                             ListeCategorieFragment.this.getView().findViewById(R.id.listViewCategories);
-                    ListeCategorieFragment.this.listViewCategoriesAdapter = new ArrayAdapter<String>(
-                            ListeCategorieFragment.this.getActivity(),
-                            android.R.layout.simple_list_item_1,
-                            nomsCategories);
-
                     ListeCategorieFragment.this.listViewCategories.setAdapter(autoCompleteTextViewAdapter);
                     ListeCategorieFragment.this.listViewCategories.setOnItemClickListener(ListeCategorieFragment.this);
 
@@ -113,8 +106,8 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        new AlertDialog.Builder(getActivity()).setMessage(this.listViewCategoriesAdapter.getItem(position)).show();
-
+        TextView tv = (TextView) view;
+        new AlertDialog.Builder(getActivity()).setMessage(tv.getText()).show();
     }
 
     public interface ListeCategorieFragmentListener {

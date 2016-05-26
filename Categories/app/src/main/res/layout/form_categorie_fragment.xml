@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-                xmlns:materialdesign="http://schemas.android.com/apk/res-auto"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@color/grey_200"
         >
 
-    <com.gc.materialdesign.views.ButtonFlat
+    <TextView
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
@@ -40,7 +39,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:id="@+id/linearLayout"
-            android:layout_marginRight="@dimen/form_base_margin" android:layout_below="@+id/textView2"
+            android:layout_margin="@dimen/form_base_margin" android:layout_below="@+id/textView2"
             android:layout_alignStart="@+id/editTextCategorie">
         <Spinner
                 android:layout_width="0dp"
@@ -48,37 +47,39 @@
                 android:layout_height="50dp"
                 android:id="@+id/spinnerAjouterChamp"
                 />
-        <com.gc.materialdesign.views.ButtonFloat
+        <Button
                 android:id="@+id/boutonAjouterChamp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@color/light_blue_800"
-                materialdesign:animate="false"
-                materialdesign:iconDrawable="@drawable/ic_library_add_white_48dp"
                 android:layout_marginLeft="@dimen/form_base_margin"
+                android:text="+"
+                android:textColor="@color/white"
                 />
     </LinearLayout>
-    <com.gc.materialdesign.views.ButtonFloat
+    <Button
             android:id="@+id/boutonAnnulerCategorie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/orange_800"
-            materialdesign:iconDrawable="@drawable/ic_clear_white_48dp"
-            materialdesign:animate="false"
-            android:layout_marginStart="86dp"
-            android:layout_alignParentBottom="true" android:layout_alignStart="@+id/linearLayout"
-            android:layout_marginBottom="10dp"/>
-    <com.gc.materialdesign.views.ButtonFloat
+            android:layout_marginBottom="@dimen/form_base_margin"
+            android:padding="5dp"
+            android:text="Annuler"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"/>
+    <Button
             android:id="@+id/boutonValiderCategorie"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:background="@color/light_blue_800"
-            materialdesign:iconDrawable="@drawable/ic_done_white_48dp"
-            materialdesign:animate="false"
-            android:layout_marginStart="78dp"
-            android:layout_alignTop="@+id/boutonAnnulerCategorie" android:layout_toEndOf="@+id/boutonAnnulerCategorie"/>
+            android:layout_marginBottom="@dimen/form_base_margin"
+            android:padding="5dp"
+            android:text="Valider"
+            android:textColor="@color/white"
+            android:layout_alignParentBottom="true" android:layout_toEndOf="@+id/boutonAnnulerCategorie"
+            android:layout_marginStart="32dp"/>
 
-    <com.gc.materialdesign.views.ButtonFlat
+    <TextView
             android:layout_width="wrap_content" android:layout_height="40dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/titre_ajouter_champ"

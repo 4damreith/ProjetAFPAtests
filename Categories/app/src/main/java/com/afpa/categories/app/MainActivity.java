@@ -2,8 +2,6 @@ package com.afpa.categories.app;
 
 import android.app.Activity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 
 
 public class MainActivity extends Activity implements FormulaireCategorieFragment.FormulaireCategorieListener, ListeCategorieFragment.ListeCategorieFragmentListener {
@@ -19,6 +17,7 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
         }
     }
 
+/*
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -41,10 +40,16 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
 
         return super.onOptionsItemSelected(item);
     }
+*/
 
 
     @Override
     public void OnValidCategorie() {
+        //TODO
+    }
+
+    @Override
+    public void OnCancelCategorie() {
         //TODO
     }
 }
