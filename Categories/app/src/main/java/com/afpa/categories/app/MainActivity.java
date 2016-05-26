@@ -6,7 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends Activity implements FormulaireCategorieFragment.FormulaireCategorieListener {
+public class MainActivity extends Activity implements FormulaireCategorieFragment.FormulaireCategorieListener, ListeCategorieFragment.ListeCategorieFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -14,7 +14,7 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new FormulaireCategorieFragment())
+                    .add(R.id.container, new ListeCategorieFragment())
                     .commit();
         }
     }

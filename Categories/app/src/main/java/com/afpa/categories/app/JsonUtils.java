@@ -1,6 +1,7 @@
 package com.afpa.categories.app;
 
 import android.content.Context;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -40,6 +41,18 @@ public final class JsonUtils {
         while (keys.hasNext()) {
             String key = keys.next();
             list.add(key);
+        }
+        return list;
+    }
+
+    public static List<String> getValuesFromArray(JSONArray arr, String key, List<String> list) {
+        try {
+            for (int i = 0; i < arr.length(); i++) {
+                JSONObject jsonObject = arr.getJSONObject(i);
+                list.add(jsonObject.optString(key));
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
         return list;
     }

@@ -27,4 +27,14 @@
     <!--Dialogues modaux-->
     <string name="dialog_ajout_categorie_succes">Insertion réussie</string>
     <string name="dialog_ajout_categorie_echec">Insertion échouée</string>
+
+
+    <!--LISTES-->
+
+    <!--Titres-->
+    <string name="titre_liste_categories">Liste des catégories</string>
+
+    <!--Placeholders/Hints-->
+    <string name="placeholder_filter_categories">Rechercher une catégorie</string>
+
 </resources>

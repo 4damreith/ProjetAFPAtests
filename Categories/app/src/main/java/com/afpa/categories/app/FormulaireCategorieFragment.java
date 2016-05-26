@@ -2,17 +2,18 @@ package com.afpa.categories.app;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
+import android.widget.TextView;
 import com.gc.materialdesign.views.ButtonFloat;
+import com.gc.materialdesign.views.ButtonRectangle;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
@@ -30,10 +31,11 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
 
 
     private final static String NOM_MODELE = "/categorie";
-    /*private final static String ACTION_INSERT = "/insert";*/
-    private final static String ACTION_UPDATE = "/update";
-    private final static String ACTION_INSERT = "/body";
-    private static AlertDialog INSERT_SUCCESS_DIALOG;
+
+    private static Dialog dialogCreationCategorie;
+    private static TextView textViewConfirmDialog;
+
+
     private EditText editTextCategorie;
     private ListView listViewChamps;
     private ChampAdapter spinnerChampAdapter;
@@ -41,10 +43,23 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
     private FormulaireCategorieListener listener;
     private Spinner spinnerAjouterChamp;
 
-
     @Override
+
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.form_categorie_fragment, container, false);
+
+        //init dialog
+        View viewDialog = inflater.inflate(R.layout.dialog_create_categorie, null, false);
+        textViewConfirmDialog = (TextView) viewDialog.findViewById(R.id.textViewConfirmDialog);
+        ButtonRectangle confirmButtonDialog = (ButtonRectangle) viewDialog.findViewById(R.id.boutonConfirmDialog);
+        confirmButtonDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogCreationCategorie.dismiss();
+            }
+        });
+        dialogCreationCategorie = new AlertDialog.Builder(getActivity()).setCancelable(false).setView(viewDialog).create();
+
         //init widgets
         ButtonFloat boutonValiderCategorie = (ButtonFloat) view.findViewById(R.id.boutonValiderCategorie);
         ButtonFloat boutonAjouterChamp = (ButtonFloat) view.findViewById(R.id.boutonAjouterChamp);
@@ -53,9 +68,8 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
         this.editTextCategorie = (EditText) view.findViewById(R.id.editTextCategorie);
 
         //init adapters
-        JSONObject json = null;
         try {
-            json = JsonUtils.loadJSONFromResources(getActivity(), R.raw.champs);
+            JSONObject json = JsonUtils.loadJSONFromResources(getActivity(), R.raw.champs);
             this.spinnerChampAdapter = new ChampAdapter(getActivity(), JsonUtils.getJsonObjects(json, new ArrayList<JSONObject>()));
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,7 +86,6 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
         return view;
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         onAttachToContext(activity);
@@ -135,31 +148,15 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String displayJson = "";
-                try {
-                    displayJson = categorie.toString(1);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }/*
-                new AlertDialog.Builder(getActivity()).setMessage(displayJson + "\r\n" + "Insertion reussie").show();*/
-
-                new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.dialog_ajout_categorie_succes)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                textViewConfirmDialog.setText(R.string.dialog_ajout_categorie_succes);
+                dialogCreationCategorie.show();
+                FormulaireCategorieFragment.this.listener.OnValidCategorie();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.dialog_ajout_categorie_echec)).setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
-                Log.e("REQUEST FAILURE", "status: " + statusCode);
+                textViewConfirmDialog.setText(R.string.dialog_ajout_categorie_succes);
+                dialogCreationCategorie.show();
             }
         });
     }
