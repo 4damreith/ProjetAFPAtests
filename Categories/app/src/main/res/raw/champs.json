@@ -4,27 +4,27 @@
     "min": 3.5,
     "max": 85,
     "unite": "pouces",
-    "type": "float",
+    "type": "decimal",
     "precision": 2
   },
   "largeur": {
     "libelle": "Largeur",
     "min": 0,
     "unite": "cm",
-    "type": "float",
+    "type": "decimal",
     "precision": 2
   },
   "longueur": {
     "libelle": "Longueur",
     "min": 0,
     "unite": "cm",
-    "type": "float",
+    "type": "decimal",
     "precision": 2
   },
   "ref_produit": {
     "libelle": "Reference produit",
     "lenght": 30,
-    "type": "string"
+    "type": "alpha"
   },
   "date_peremption": {
     "libelle": "Date peremption",

@@ -8,6 +8,7 @@
 
     <!--Titres-->
     <string name="titre_form_creer_categorie">Créer une catégorie</string>
+    <string name="titre_form_creer_champ">Créer un champ</string>
     <string name="titre_form_editer_categorie">Editer une catégorie</string>
     <string name="titre_ajouter_champ">Ajouter des champs</string>
 
@@ -19,10 +20,12 @@
     <string name="texte_bouton_dialog_ajouter_champ_annuler">Annuler</string>
 
     <!--Labels champs de formulaires-->
-    <string name="label_type_categorie">Type</string>
+    <string name="label_nom_champ">Nom</string>
+    <string name="label_type_champ">Type</string>
 
     <!--Placeholders/Hints-->
     <string name="placeholder_type_categorie">Saisir le type</string>
+    <string name="placeholder_nom_champ">Saisir le nom du champ</string>
 
     <!--Dialogues modaux-->
     <string name="dialog_ajout_categorie_succes">Insertion réussie</string>

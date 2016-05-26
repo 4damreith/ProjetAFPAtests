@@ -24,14 +24,13 @@ public class ChampAdapter extends ArrayAdapter<JSONObject> {
 
     static {
         TYPE_ICONS = new HashMap<String, Integer>();
-        TYPE_ICONS.put("alpha", R.drawable.ic_format_quote_black_48dp);
-        TYPE_ICONS.put("numeric", R.drawable.ic_numeric_48dp);
-        TYPE_ICONS.put("float", R.drawable.ic_numeric_48dp);
-        TYPE_ICONS.put("integer", R.drawable.ic_numeric_48dp);
-        TYPE_ICONS.put("string", R.drawable.ic_format_quote_black_48dp);
-        TYPE_ICONS.put("date", R.drawable.ic_date_range_black_48dp);
-        TYPE_ICONS.put("time", R.drawable.ic_access_time_black_48dp);
-        TYPE_ICONS.put("list", R.drawable.ic_list_black_48dp);
+        TYPE_ICONS.put(Type.alpha.name(), R.drawable.ic_format_quote_black_48dp);
+        TYPE_ICONS.put(Type.integer.name(), R.drawable.ic_numeric_48dp);
+        TYPE_ICONS.put(Type.decimal.name(), R.drawable.ic_numeric_48dp);
+        TYPE_ICONS.put(Type.alpha.name(), R.drawable.ic_format_quote_black_48dp);
+        TYPE_ICONS.put(Type.date.name(), R.drawable.ic_date_range_black_48dp);
+        TYPE_ICONS.put(Type.time.name(), R.drawable.ic_access_time_black_48dp);
+        TYPE_ICONS.put(Type.liste.name(), R.drawable.ic_list_black_48dp);
     }
 
     public ChampAdapter(Context context) {

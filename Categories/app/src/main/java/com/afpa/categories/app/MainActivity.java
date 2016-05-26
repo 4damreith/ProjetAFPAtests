@@ -10,10 +10,20 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new ListeCategorieFragment())
+                    .add(R.id.container, new FormulaireChampFragment())
                     .commit();
+           /* FragmentManager fm = getFragmentManager();
+            Fragment frag = new FormulaireCategorieFragment();
+            Bundle args = new Bundle();
+            args.putString(FormulaireCategorieFragment.CATEGORIE_ARGUMENT_KEY, "table");
+            frag.setArguments(args);
+            FragmentTransaction ft = fm.beginTransaction();
+            ft.add(R.id.container, frag);
+            ft.commit();*/
         }
     }
 
@@ -50,6 +60,11 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
 
     @Override
     public void OnCancelCategorie() {
+        //TODO
+    }
+
+    @Override
+    public void OnCategorieSelected(String nomCategorie) {
         //TODO
     }
 }

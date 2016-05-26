@@ -32,9 +32,8 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
     @Override
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.list_categorie_fragment, container, false);
         this.nomsCategories = new ArrayList<String>();
-        return view;
+        return inflater.inflate(R.layout.list_categorie_fragment, container, false);
     }
 
     @Override
@@ -50,10 +49,9 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                String response = "";
                 try {
                     //retrieving data
-                    response = new String(responseBody, ENCODING);
+                    String response = new String(responseBody, ENCODING);
                     JSONArray jsonArray = new JSONArray(response);
                     ListeCategorieFragment.this.nomsCategories = JsonUtils.getValuesFromArray(jsonArray, CATEGORIE_NOM_KEY, new ArrayList<String>());
 
@@ -86,16 +84,13 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
         });
     }
 
-    @SuppressWarnings("deprecation")
     @Override
     public void onAttach(Activity activity) {
         onAttachToContext(activity);
         super.onAttach(activity);
     }
 
-    /*
-     * Called when the fragment attaches to the context
-     */
+
     protected void onAttachToContext(Context context) {
         if (context instanceof ListeCategorieFragmentListener) {
             this.listener = (ListeCategorieFragmentListener) context;
@@ -108,9 +103,11 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
         TextView tv = (TextView) view;
         new AlertDialog.Builder(getActivity()).setMessage(tv.getText()).show();
+
     }
 
     public interface ListeCategorieFragmentListener {
-        //TODO definir des methodes d'ecoute au besoin
+        //TODO ajouter une methode pour le mode "creation de produit"
+        void OnCategorieSelected(String nomCategorie);
     }
 }

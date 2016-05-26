@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,21 +29,30 @@ import java.util.ArrayList;
 public class FormulaireCategorieFragment extends WebServiceFragment implements View.OnClickListener {
 
 
+    public final static String CATEGORIE_ARGUMENT_KEY = "mode";
+
     private final static String NOM_MODELE = "/categorie";
 
     private static AlertDialog.Builder dialogCreationCategorieBuilder;
 
+    private boolean edit;
     private EditText editTextCategorie;
     private ListView listViewChamps;
     private ChampAdapter spinnerChampAdapter;
     private ChampAdapter listViewChampAdapter;
     private FormulaireCategorieListener listener;
     private Spinner spinnerAjouterChamp;
+    private JSONObject categorie;
+    private String nomCategorie;
+
 
     @Override
-
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.form_categorie_fragment, container, false);
+
+        this.edit = getArguments().containsKey(CATEGORIE_ARGUMENT_KEY);
+        if (this.edit)
+            this.nomCategorie = getArguments().getString(CATEGORIE_ARGUMENT_KEY);
 
         //init dialog
         dialogCreationCategorieBuilder = new AlertDialog.Builder(getActivity()).setCancelable(false);
@@ -61,7 +71,11 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
         } catch (IOException e) {
             e.printStackTrace();
         }
-        this.listViewChampAdapter = new ChampAdapter(getActivity());
+        if (this.edit) {
+            initFormEditMode();
+        } else {
+            this.listViewChampAdapter = new ChampAdapter(getActivity());
+        }
 
         //set adapters to adapterViews
         this.spinnerAjouterChamp.setAdapter(this.spinnerChampAdapter);
@@ -71,6 +85,31 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
         boutonValiderCategorie.setOnClickListener(this);
         boutonAjouterChamp.setOnClickListener(this);
         return view;
+    }
+
+    private void initFormEditMode() {
+        final String url = DOMAIN + NOM_MODELE + ACTION_GET + "/" + this.nomCategorie;
+        asyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
+
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                String response = null;
+                try {
+                    response = new String(responseBody, ENCODING);
+                    JSONObject jsonObject = new JSONObject(response);
+                    Log.e("CATEGORIE_EDIT", jsonObject.toString(1));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                Log.e("CATEGORIE_EDIT", "fail to connect: " + url + " " + statusCode);
+            }
+        });
     }
 
     @Override
@@ -131,6 +170,11 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
     }
 
     private void insererCategorie(final JSONObject categorie) {
+        try {
+            Log.e("CAT ", categorie.toString(1));
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         StringEntity entityJson = null;
         try {
             entityJson = new StringEntity(categorie.toString());
@@ -142,23 +186,27 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                dialogCreationCategorieBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        FormulaireCategorieFragment.this.listener.OnValidCategorie();
-                        dialog.dismiss();
-                    }
-                }).show();
+                dialogCreationCategorieBuilder
+                        .setMessage(getString(R.string.dialog_ajout_categorie_succes))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                FormulaireCategorieFragment.this.listener.OnValidCategorie();
+                                dialog.dismiss();
+                            }
+                        }).show();
             }
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                dialogCreationCategorieBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                }).show();
+                dialogCreationCategorieBuilder
+                        .setMessage(getString(R.string.dialog_ajout_categorie_echec))
+                        .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }).show();
             }
         });
     }
