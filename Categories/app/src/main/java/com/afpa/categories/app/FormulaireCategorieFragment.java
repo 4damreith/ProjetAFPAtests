@@ -26,7 +26,7 @@ import java.net.URLEncoder;
 /**
  * Created by syjebrane on 19/05/2016.
  */
-public class FormulaireCategorieFragment extends WebServiceFragment implements View.OnClickListener {
+public class FormulaireCategorieFragment extends WebService implements View.OnClickListener {
 
 
     public final static String CATEGORIE_ARGUMENT_KEY = "mode";
@@ -96,7 +96,7 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
     private void initSpinnerSelectionChamps() {
 
         //preparation de l'URL, recuperation de tous les champs dispo. dans la BDD
-        final String url = DOMAIN + NOM_MODELE_CATEGORIES + ACTION_LIST;
+        final String url = WebService.buildUrlForRequest(Metier.DOMAIN, Metier.NOM_MODELE_CATEGORIES, WebService.ACTION_LIST, null);
 
         //preparation et execution de la requete en asynchrone
         asyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
@@ -145,7 +145,8 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
             e.printStackTrace();
         }
         //preparation de l'URL
-        final String url = DOMAIN + NOM_MODELE_CATEGORIES + ACTION_GET + "/" + urlCategorieName;
+        String[] params = {urlCategorieName};
+        final String url = WebService.buildUrlForRequest(Metier.DOMAIN, Metier.NOM_MODELE_CATEGORIES, WebService.ACTION_GET, params);
 
         //requete pour recuperer la categorie a editer (asynchrone)
         asyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
@@ -213,12 +214,11 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
         JSONObject categorie = new JSONObject();
         String categorie_nom = this.editTextCategorie.getText().toString();
         try {
-            //TODO remplacer par des constantes metier, preparer une classe pour y acceder
-            categorie.put("categorie", categorie_nom);
-            categorie.put("nom", "");
+            categorie.put(Metier.CLE_CATEGORIE_NOM, categorie_nom);
+            categorie.put(Metier.CLE_PRODUIT_NOM, "");
             for (int i = 0; i < this.listViewChampAdapter.getCount(); i++) {
                 JSONObject champ = this.listViewChampAdapter.getItem(i);
-                categorie.put(champ.optString(ChampAdapter.LIBELLE_CHAMP_KEY), champ.optString(ChampAdapter.TYPE_CHAMP_KEY));
+                categorie.put(champ.optString(Metier.CLE_CHAMP_NOM), "");
             }
         } catch (JSONException e) {
             e.printStackTrace();

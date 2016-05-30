@@ -20,7 +20,7 @@ import java.util.List;
 /**
  * Created by syjebrane on 25/05/2016.
  */
-public class ListeCategorieFragment extends WebServiceFragment implements AdapterView.OnItemClickListener {
+public class ListeCategorieFragment extends WebService implements AdapterView.OnItemClickListener {
 
     private static final String CATEGORIE_NOM_KEY = "categorie";
     private final static String NOM_MODELE = "/categorie";

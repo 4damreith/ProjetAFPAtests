@@ -24,13 +24,13 @@ import java.util.ArrayList;
 /**
  * Created by syjebrane on 26/05/2016.
  */
-public class FormulaireChampFragment extends WebServiceFragment implements View.OnClickListener {
+public class FormulaireChampFragment extends WebService implements View.OnClickListener {
 
 
-    private static final String NOM_MODELE = "/champs";
     private static AlertDialog.Builder dialogCreationCategorieBuilder;
     private ArrayAdapter<String> typesChampAdapter;
     private EditText editTextNomChamp;
+
     private Spinner spinnerTypeChamp;
 
     private FormulaireCategorieListener listener;
@@ -112,6 +112,8 @@ public class FormulaireChampFragment extends WebServiceFragment implements View.
 
     /**
      * Insertion d'un nouveau champ dans la base et feedback
+     *
+     * @param champ le champ a inserer formatte en JSONObject
      */
     private void insererChamp(final JSONObject champ) {
         //preparation du JSON pour le passer dans le corps de la requete HTTP
@@ -122,7 +124,7 @@ public class FormulaireChampFragment extends WebServiceFragment implements View.
             e.printStackTrace();
         }
         //preparation de l'URL
-        final String url = DOMAIN + NOM_MODELE + "azer" + ACTION_INSERT;
+        final String url = WebService.buildUrlForRequest(Metier.DOMAIN, Metier.NOM_MODELE_CHAMPS, WebService.ACTION_INSERT, null);
 
         //requete pour recuperer la categorie a editer (asynchrone)
         asyncHttpClient.post(getActivity(), url, entityJson, DATA_TYPE, new AsyncHttpResponseHandler() {
@@ -143,7 +145,7 @@ public class FormulaireChampFragment extends WebServiceFragment implements View.
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
                 dialogCreationCategorieBuilder
-                        .setMessage(getString(R.string.error_msg_fail_insert_data) + statusCode)
+                        .setMessage(getString(R.string.error_msg_fail_insert_data) + url + "\r\n" + statusCode)
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
