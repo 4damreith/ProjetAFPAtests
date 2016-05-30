@@ -30,6 +30,8 @@
     <!--Dialogues modaux-->
     <string name="dialog_ajout_categorie_succes">Insertion réussie</string>
     <string name="dialog_ajout_categorie_echec">Insertion échouée</string>
+    <string name="dialog_ajout_champ_succes">Insertion réussie</string>
+    <string name="dialog_ajout_champ_echec">Insertion échouée</string>
 
 
     <!--LISTES-->
@@ -39,5 +41,9 @@
 
     <!--Placeholders/Hints-->
     <string name="placeholder_filter_categories">Rechercher une catégorie</string>
+
+    <!--MESSAGES D'ERREURS-->
+    <string name="error_msg_fail_retrieve_data">La récupération des données a échoué. Erreur:</string>
+    <string name="error_msg_fail_insert_data">L\'insertion des données a échoué. Erreur:</string>
 
 </resources>

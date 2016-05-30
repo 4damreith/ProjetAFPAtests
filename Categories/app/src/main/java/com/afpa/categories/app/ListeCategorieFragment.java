@@ -42,20 +42,23 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
         initCategories();
     }
 
+    /* Initialisation du champ texte de recherche et de la liste des categories */
     private void initCategories() {
-
+        //preparation de l'url pour la requete
         String url = DOMAIN + NOM_MODELE + ACTION_LIST;
+
+        //preparation et execution de la requete en asynchrone
         asyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
 
             @Override
             public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
                 try {
-                    //retrieving data
+                    //recuperation des donnees et parsing en JSONArray
                     String response = new String(responseBody, ENCODING);
                     JSONArray jsonArray = new JSONArray(response);
-                    ListeCategorieFragment.this.nomsCategories = JsonUtils.getValuesFromArray(jsonArray, CATEGORIE_NOM_KEY, new ArrayList<String>());
+                    ListeCategorieFragment.this.nomsCategories = JsonUtils.getValuesFromJSONArray(jsonArray, CATEGORIE_NOM_KEY, new ArrayList<String>());
 
-                    //init autocomplete filter text field
+                    //initialisation du champ texte aec auto-completion
                     ArrayAdapter<String> autoCompleteTextViewAdapter = new ArrayAdapter<String>(
                             getActivity(),
                             android.R.layout.simple_dropdown_item_1line,
@@ -64,7 +67,7 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
                             ListeCategorieFragment.this.getView().findViewById(R.id.filterAutoCompleteTextView);
                     ListeCategorieFragment.this.autoCompleteTextView.setAdapter(autoCompleteTextViewAdapter);
 
-                    //init listview
+                    //initialisation de la liste, elle partage l'adapter (destine a gerer l'autocompletion) )avec le champ texte
                     ListeCategorieFragment.this.listViewCategories = (ListView)
                             ListeCategorieFragment.this.getView().findViewById(R.id.listViewCategories);
                     ListeCategorieFragment.this.listViewCategories.setAdapter(autoCompleteTextViewAdapter);
@@ -79,7 +82,7 @@ public class ListeCategorieFragment extends WebServiceFragment implements Adapte
 
             @Override
             public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                new AlertDialog.Builder(getActivity()).setMessage("Failed to retrieve data. Status code: " + statusCode).show();
+                new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.error_msg_fail_retrieve_data) + statusCode).show();
             }
         });
     }

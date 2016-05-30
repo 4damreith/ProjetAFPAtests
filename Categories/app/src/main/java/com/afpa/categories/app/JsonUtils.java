@@ -45,7 +45,7 @@ public final class JsonUtils {
         return list;
     }
 
-    public static List<String> getValuesFromArray(JSONArray arr, String key, List<String> list) {
+    public static List<String> getValuesFromJSONArray(JSONArray arr, String key, List<String> list) {
         try {
             for (int i = 0; i < arr.length(); i++) {
                 JSONObject jsonObject = arr.getJSONObject(i);

@@ -8,8 +8,7 @@
 
     <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="40dp"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="@string/titre_form_creer_champ"
             android:layout_alignParentTop="true"
@@ -24,7 +23,7 @@
 
     <LinearLayout android:layout_width="match_parent"
                   android:layout_height="0dp"
-                  android:layout_weight="11"
+                  android:layout_weight="7"
                   android:orientation="vertical"
                   android:padding="@dimen/form_base_margin"
             >
@@ -58,7 +57,8 @@
 
         </LinearLayout>
         <LinearLayout android:layout_width="match_parent"
-                      android:layout_height="wrap_content"
+                      android:layout_height="0dp"
+                      android:layout_weight="7"
                       android:orientation="horizontal"
                       android:layout_marginTop="@dimen/form_base_margin"
                 >
@@ -80,6 +80,34 @@
                     android:id="@+id/spinnerTypeChamp"
                     />
 
+        </LinearLayout>
+        <LinearLayout android:layout_width="match_parent" android:layout_height="0dp"
+                      android:layout_weight="2"
+                      android:orientation="horizontal"
+                      android:gravity="bottom"
+                >
+            <Button
+                    android:id="@+id/boutonAnnulerChamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/orange_800"
+                    android:padding="5dp"
+                    android:text="Annuler"
+                    android:textColor="@color/white"
+                    android:layout_alignParentBottom="true" android:layout_centerHorizontal="true"
+                    android:layout_marginStart="150dp"
+                    />
+            <Button
+                    android:id="@+id/boutonAjouterChamp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@color/light_blue_800"
+                    android:padding="5dp"
+                    android:text="Valider"
+                    android:textColor="@color/white"
+                    android:layout_alignParentBottom="true" android:layout_toEndOf="@+id/boutonAnnulerCategorie"
+                    android:layout_marginStart="32dp"
+                    />
         </LinearLayout>
 
     </LinearLayout>

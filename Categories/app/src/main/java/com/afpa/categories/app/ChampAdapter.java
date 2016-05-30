@@ -27,14 +27,13 @@ public class ChampAdapter extends ArrayAdapter<JSONObject> {
         TYPE_ICONS.put(Type.alpha.name(), R.drawable.ic_format_quote_black_48dp);
         TYPE_ICONS.put(Type.integer.name(), R.drawable.ic_numeric_48dp);
         TYPE_ICONS.put(Type.decimal.name(), R.drawable.ic_numeric_48dp);
-        TYPE_ICONS.put(Type.alpha.name(), R.drawable.ic_format_quote_black_48dp);
         TYPE_ICONS.put(Type.date.name(), R.drawable.ic_date_range_black_48dp);
         TYPE_ICONS.put(Type.time.name(), R.drawable.ic_access_time_black_48dp);
         TYPE_ICONS.put(Type.liste.name(), R.drawable.ic_list_black_48dp);
     }
 
     public ChampAdapter(Context context) {
-        super(context, android.R.layout.simple_list_item_1, new ArrayList<JSONObject>());
+        super(context, android.R.layout.simple_spinner_dropdown_item, new ArrayList<JSONObject>());
 
     }
 
@@ -64,6 +63,7 @@ public class ChampAdapter extends ArrayAdapter<JSONObject> {
             viewHolder = (ChampAdapterHolder) convertView.getTag();
         }
         JSONObject champCourant = getItem(position);
+
 
         if (champCourant != null) {
             viewHolder.textViewItemChamp.setText(champCourant.optString(LIBELLE_CHAMP_KEY));

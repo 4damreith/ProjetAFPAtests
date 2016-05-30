@@ -4,7 +4,7 @@ import android.app.Activity;
 import android.os.Bundle;
 
 
-public class MainActivity extends Activity implements FormulaireCategorieFragment.FormulaireCategorieListener, ListeCategorieFragment.ListeCategorieFragmentListener {
+public class MainActivity extends Activity implements FormulaireCategorieFragment.FormulaireCategorieListener, ListeCategorieFragment.ListeCategorieFragmentListener, FormulaireChampFragment.FormulaireCategorieListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -16,16 +16,18 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
             getFragmentManager().beginTransaction()
                     .add(R.id.container, new FormulaireChampFragment())
                     .commit();
-           /* FragmentManager fm = getFragmentManager();
-            Fragment frag = new FormulaireCategorieFragment();
-            Bundle args = new Bundle();
-            args.putString(FormulaireCategorieFragment.CATEGORIE_ARGUMENT_KEY, "table");
-            frag.setArguments(args);
-            FragmentTransaction ft = fm.beginTransaction();
-            ft.add(R.id.container, frag);
-            ft.commit();*/
         }
+      /*  FragmentManager fm = getFragmentManager();
+        Fragment frag = new FormulaireCategorieFragment();
+        Bundle args = new Bundle();
+        args.putString(FormulaireCategorieFragment.CATEGORIE_ARGUMENT_KEY, "category");*//*
+        frag.setArguments(args);*//*
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.add(R.id.container, frag);
+        ft.commit();*/
     }
+
+
 
 /*
 
@@ -65,6 +67,16 @@ public class MainActivity extends Activity implements FormulaireCategorieFragmen
 
     @Override
     public void OnCategorieSelected(String nomCategorie) {
+        //TODO
+    }
+
+    @Override
+    public void OnValidChamp() {
+        //TODO
+    }
+
+    @Override
+    public void OnCancelChamp() {
         //TODO
     }
 }

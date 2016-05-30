@@ -16,12 +16,12 @@ import android.widget.TextView;
 import com.loopj.android.http.AsyncHttpResponseHandler;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.entity.StringEntity;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
+import java.net.URLEncoder;
 
 /**
  * Created by syjebrane on 19/05/2016.
@@ -31,11 +31,12 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
 
     public final static String CATEGORIE_ARGUMENT_KEY = "mode";
 
-    private final static String NOM_MODELE = "/categorie";
+    private final static String NOM_MODELE_CATEGORIES = "/categorie";
+    private final static String NOM_MODELE_CHAMPS = "/champs";
 
     private static AlertDialog.Builder dialogCreationCategorieBuilder;
 
-    private boolean edit;
+    private boolean edit = false;
     private EditText editTextCategorie;
     private ListView listViewChamps;
     private ChampAdapter spinnerChampAdapter;
@@ -50,45 +51,103 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.form_categorie_fragment, container, false);
 
-        this.edit = getArguments().containsKey(CATEGORIE_ARGUMENT_KEY);
-        if (this.edit)
-            this.nomCategorie = getArguments().getString(CATEGORIE_ARGUMENT_KEY);
+        //on teste la presence d'arguments
+        if (getArguments() != null) {
+            //si il y a des arguments, et qu'ils contiennent le nom d'une categorie, alors on passe en mode edition...
+            this.edit = getArguments().containsKey(CATEGORIE_ARGUMENT_KEY);
+            if (this.edit) {
+                //...et on recupere le nom de la categorie a editer
+                this.nomCategorie = getArguments().getString(CATEGORIE_ARGUMENT_KEY);
+            }
+        }
 
-        //init dialog
+        //initialisation du Builder de dialogues modaux
         dialogCreationCategorieBuilder = new AlertDialog.Builder(getActivity()).setCancelable(false);
 
-        //init widgets
+        //deserialisation des widgets necessaires
         TextView boutonValiderCategorie = (TextView) view.findViewById(R.id.boutonValiderCategorie);
         TextView boutonAjouterChamp = (TextView) view.findViewById(R.id.boutonAjouterChamp);
         this.spinnerAjouterChamp = (Spinner) view.findViewById(R.id.spinnerAjouterChamp);
         this.listViewChamps = (ListView) view.findViewById(R.id.listViewChamps);
         this.editTextCategorie = (EditText) view.findViewById(R.id.editTextCategorie);
 
-        //init adapters
-        try {
-            JSONObject json = JsonUtils.loadJSONFromResources(getActivity(), R.raw.champs);
-            this.spinnerChampAdapter = new ChampAdapter(getActivity(), JsonUtils.getJsonObjects(json, new ArrayList<JSONObject>()));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        //si on est en mode d'edition (les arguments contiennnt un Bundle comportant le nom de la categorie à éditer)...
         if (this.edit) {
+            //...alors on initialise la listview avec les champs contenus dans la categorie...
             initFormEditMode();
         } else {
-            this.listViewChampAdapter = new ChampAdapter(getActivity());
+            //...sinon on initialise la listview avec un ChampAdapter vide
+            initFormCreateMode();
+            /*this.listViewChampAdapter = new ChampAdapter(getActivity());*/
         }
+        //(dans tous les cas on initialisera le ChampAdapter du spinner de selection de champ, avec les champs trouvés en base, voir les deux méthodes d'initialisation)
 
-        //set adapters to adapterViews
+        //ajout des adapters
         this.spinnerAjouterChamp.setAdapter(this.spinnerChampAdapter);
         this.listViewChamps.setAdapter(this.listViewChampAdapter);
 
-        //init events
+        //initialisation des evenements
         boutonValiderCategorie.setOnClickListener(this);
         boutonAjouterChamp.setOnClickListener(this);
         return view;
     }
 
+    /*Initialise le spinner de selection de champs*/
+    private void initSpinnerSelectionChamps() {
+
+        //preparation de l'URL, recuperation de tous les champs dispo. dans la BDD
+        final String url = DOMAIN + NOM_MODELE_CATEGORIES + ACTION_LIST;
+
+        //preparation et execution de la requete en asynchrone
+        asyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
+            @Override
+            public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
+                //recuperation des donnees et parsing en JSONArray
+                String response = null;
+                try {
+                    response = new String(responseBody, ENCODING);
+                    JSONArray jsonArray = new JSONArray(response);
+                    Log.e("JSONARRAY", jsonArray.toString(1));
+                } catch (UnsupportedEncodingException e) {
+                    e.printStackTrace();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+            }
+
+            @Override
+            public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
+                new AlertDialog.Builder(getActivity()).setMessage(getString(R.string.error_msg_fail_retrieve_data) + statusCode).show();
+            }
+        });
+/*
+        try {
+            JSONObject json = JsonUtils.loadJSONFromResources(getActivity(), R.raw.champs);
+            this.spinnerChampAdapter = new ChampAdapter(getActivity(), JsonUtils.getJsonObjects(json, new ArrayList<JSONObject>()));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/
+    }
+
+    private void initFormCreateMode() {
+        initSpinnerSelectionChamps();
+        //TODO
+    }
+
     private void initFormEditMode() {
-        final String url = DOMAIN + NOM_MODELE + ACTION_GET + "/" + this.nomCategorie;
+        initSpinnerSelectionChamps();
+        //encodage de la chaine de caracteres correspondant au nom du produit pour etre passé dans l'URL
+        String urlCategorieName = null;
+        try {
+            urlCategorieName = URLEncoder.encode(this.nomCategorie, ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        //preparation de l'URL
+        final String url = DOMAIN + NOM_MODELE_CATEGORIES + ACTION_GET + "/" + urlCategorieName;
+
+        //requete pour recuperer la categorie a editer (asynchrone)
         asyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
 
             @Override
@@ -97,7 +156,7 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
                 try {
                     response = new String(responseBody, ENCODING);
                     JSONObject jsonObject = new JSONObject(response);
-                    Log.e("CATEGORIE_EDIT", jsonObject.toString(1));
+                    //TODO PAUSE
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 } catch (JSONException e) {
@@ -118,9 +177,6 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
         super.onAttach(activity);
     }
 
-    /*
-     * Called when the fragment attaches to the context
-     */
     protected void onAttachToContext(Context context) {
         if (context instanceof FormulaireCategorieListener) {
             this.listener = (FormulaireCategorieListener) context;
@@ -157,6 +213,7 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
         JSONObject categorie = new JSONObject();
         String categorie_nom = this.editTextCategorie.getText().toString();
         try {
+            //TODO remplacer par des constantes metier, preparer une classe pour y acceder
             categorie.put("categorie", categorie_nom);
             categorie.put("nom", "");
             for (int i = 0; i < this.listViewChampAdapter.getCount(); i++) {
@@ -170,18 +227,13 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
     }
 
     private void insererCategorie(final JSONObject categorie) {
-        try {
-            Log.e("CAT ", categorie.toString(1));
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
         StringEntity entityJson = null;
         try {
             entityJson = new StringEntity(categorie.toString());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url = DOMAIN + NOM_MODELE + ACTION_INSERT;
+        String url = DOMAIN + NOM_MODELE_CATEGORIES + ACTION_INSERT;
         asyncHttpClient.post(getActivity(), url, entityJson, DATA_TYPE, new AsyncHttpResponseHandler() {
 
             @Override
@@ -191,8 +243,8 @@ public class FormulaireCategorieFragment extends WebServiceFragment implements V
                         .setPositiveButton("OK", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                FormulaireCategorieFragment.this.listener.OnValidCategorie();
                                 dialog.dismiss();
+                                FormulaireCategorieFragment.this.listener.OnValidCategorie();
                             }
                         }).show();
             }
