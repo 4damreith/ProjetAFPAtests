@@ -87,7 +87,8 @@ public class FormulaireChampFragment extends WebService implements View.OnClickL
     }
 
     /**
-     * A executer lors du clic sur le bouton Annuler, envoi de l'evenement a l'Activity conteneur
+     * A executer lors du clic sur le bouton Annuler
+     * Notification de l'evenement a l'activite conteneur
      */
     private void triggerAnnulerChamp() {
         this.listener.OnCancelChamp();

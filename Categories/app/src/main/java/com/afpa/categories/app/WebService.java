@@ -9,10 +9,10 @@ import com.loopj.android.http.AsyncHttpClient;
 public abstract class WebService extends Fragment {
 
     //methodes d'acces en lecture ecriture (REST)
-    public final static String ACTION_UPDATE = "/update";
-    public final static String ACTION_GET = "/get";
-    public final static String ACTION_LIST = "/liste";
-    public final static String ACTION_INSERT = "/insert";
+    public final static String ACTION_UPDATE = "update";
+    public final static String ACTION_GET = "get";
+    public final static String ACTION_LIST = "liste";
+    public final static String ACTION_INSERT = "insert";
 
     //encodage des caracteres
     public final static String ENCODING = "ISO-8859-1";

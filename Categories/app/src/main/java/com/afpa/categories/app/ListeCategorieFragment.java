@@ -22,8 +22,6 @@ import java.util.List;
  */
 public class ListeCategorieFragment extends WebService implements AdapterView.OnItemClickListener {
 
-    private static final String CATEGORIE_NOM_KEY = "categorie";
-    private final static String NOM_MODELE = "/categorie";
     private List<String> nomsCategories;
     private AutoCompleteTextView autoCompleteTextView;
     private ListView listViewCategories;
@@ -45,7 +43,7 @@ public class ListeCategorieFragment extends WebService implements AdapterView.On
     /* Initialisation du champ texte de recherche et de la liste des categories */
     private void initCategories() {
         //preparation de l'url pour la requete
-        String url = DOMAIN + NOM_MODELE + ACTION_LIST;
+        String url = WebService.buildUrlForRequest(Metier.DOMAIN, Metier.NOM_MODELE_CATEGORIES, WebService.ACTION_LIST, null);
 
         //preparation et execution de la requete en asynchrone
         asyncHttpClient.get(getActivity(), url, new AsyncHttpResponseHandler() {
@@ -56,7 +54,7 @@ public class ListeCategorieFragment extends WebService implements AdapterView.On
                     //recuperation des donnees et parsing en JSONArray
                     String response = new String(responseBody, ENCODING);
                     JSONArray jsonArray = new JSONArray(response);
-                    ListeCategorieFragment.this.nomsCategories = JsonUtils.getValuesFromJSONArray(jsonArray, CATEGORIE_NOM_KEY, new ArrayList<String>());
+                    ListeCategorieFragment.this.nomsCategories = JsonUtils.getValuesFromJSONArray(jsonArray, Metier.CLE_CATEGORIE_NOM, new ArrayList<String>());
 
                     //initialisation du champ texte aec auto-completion
                     ArrayAdapter<String> autoCompleteTextViewAdapter = new ArrayAdapter<String>(

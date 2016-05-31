@@ -31,9 +31,6 @@ public class FormulaireCategorieFragment extends WebService implements View.OnCl
 
     public final static String CATEGORIE_ARGUMENT_KEY = "mode";
 
-    private final static String NOM_MODELE_CATEGORIES = "/categorie";
-    private final static String NOM_MODELE_CHAMPS = "/champs";
-
     private static AlertDialog.Builder dialogCreationCategorieBuilder;
 
     private boolean edit = false;
@@ -92,7 +89,9 @@ public class FormulaireCategorieFragment extends WebService implements View.OnCl
         return view;
     }
 
-    /*Initialise le spinner de selection de champs*/
+    /**
+     * Initialise le spinner de selection de champs
+     */
     private void initSpinnerSelectionChamps() {
 
         //preparation de l'URL, recuperation de tous les champs dispo. dans la BDD
@@ -130,11 +129,17 @@ public class FormulaireCategorieFragment extends WebService implements View.OnCl
         }*/
     }
 
+    /**
+     * Initialisation du formulaire en mode de creation
+     */
     private void initFormCreateMode() {
         initSpinnerSelectionChamps();
         //TODO
     }
 
+    /**
+     * Initialisation du formulaire en mode d'edition
+     */
     private void initFormEditMode() {
         initSpinnerSelectionChamps();
         //encodage de la chaine de caracteres correspondant au nom du produit pour etre passé dans l'URL
@@ -202,14 +207,27 @@ public class FormulaireCategorieFragment extends WebService implements View.OnCl
         }
     }
 
+    /**
+     * A executer lors du clic sur le bouton Annuler
+     * Notification de l'evenement a l'activite conteneur
+     */
     private void triggerAnnulerCategorie() {
         this.listener.OnCancelCategorie();
     }
 
+    /**
+     * A executer lors du clic sur le bouton d'ajout de champ
+     * Ajoute un nouveau chanp au format JSON a la ListView des champs
+     */
     private void triggerAjouterChamp(JSONObject item) {
         this.listViewChampAdapter.add(item);
     }
 
+
+    /**
+     * A executer lors du clic sur le bouton Valider
+     * Preparation d'une nouvelle categorie au format JSON et appel de la methode d'insertion en BDD
+     */
     private void triggerValiderCategorie() {
         JSONObject categorie = new JSONObject();
         String categorie_nom = this.editTextCategorie.getText().toString();
@@ -226,14 +244,24 @@ public class FormulaireCategorieFragment extends WebService implements View.OnCl
         insererCategorie(categorie);
     }
 
+    /**
+     * Insertion d'une nouvelle categorie en BDD
+     *
+     * @param categorie la nouvelle categorie au format JSON
+     */
     private void insererCategorie(final JSONObject categorie) {
+        //preparation du JSON pour le passer dans le corps de la requete HTTP
         StringEntity entityJson = null;
         try {
             entityJson = new StringEntity(categorie.toString());
         } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-        String url = DOMAIN + NOM_MODELE_CATEGORIES + ACTION_INSERT;
+
+        //preparation de l'URL
+        String url = WebService.buildUrlForRequest(Metier.DOMAIN, Metier.NOM_MODELE_CATEGORIES, WebService.ACTION_INSERT, null);
+
+        //requete pour inserer la nouvelle categorie (asynchrone)
         asyncHttpClient.post(getActivity(), url, entityJson, DATA_TYPE, new AsyncHttpResponseHandler() {
 
             @Override
